@@ -38,7 +38,7 @@ class CustomElementorWidget extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Hello World', 'elementor-hello-world' );
+		return __( 'Custom Widget Elementor', 'elementor-hello-world' );
 	}
 
 	/**

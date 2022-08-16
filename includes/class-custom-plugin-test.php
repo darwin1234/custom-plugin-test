@@ -132,10 +132,10 @@ class Custom_Plugin_Test {
 	
 	}
 
-	public function register_widgets(){
+	public function register_widgets($widgets_manager){
 		require plugin_dir_path(dirname( __FILE__ ) ) . 'admin/class-custom-widget-element.php';
 		// Register Widgets
-		$widgets_manager->register( new admin\CustomElementorWidget() );
+		$widgets_manager->register( new CustomElementorWidget() );
 	}
 	/**
 	 * Define the locale for this plugin for internationalization.
