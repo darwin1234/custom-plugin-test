@@ -79,6 +79,7 @@ class Custom_Plugin_Test {
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
+		add_action( 'elementor/widgets/register', [ $this, 'register_widgets' ] );
 	}
 
 	/**
@@ -124,8 +125,18 @@ class Custom_Plugin_Test {
 
 		$this->loader = new Custom_Plugin_Test_Loader();
 
+		/**
+		 * The Class is responsible for custom widget 
+		 * 
+		 */
+	
 	}
 
+	public function register_widgets(){
+		require plugin_dir_path(dirname( __FILE__ ) ) . 'admin/class-custom-widget-element.php';
+		// Register Widgets
+		$widgets_manager->register( new admin\CustomElementorWidget() );
+	}
 	/**
 	 * Define the locale for this plugin for internationalization.
 	 *
