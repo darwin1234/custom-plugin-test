@@ -98,9 +98,10 @@ class CustomElementorWidget extends Widget_Base {
 	 */
 	protected function register_controls() {
 		$this->start_controls_section(
-			'section_content',
+			'content_section',
 			[
-				'label' => __( 'Content', 'elementor-hello-world' ),
+				'label' => __( 'Post Object', 'elementor-hello-world' ),
+				'tab' => Controls_Manager::TAB_CONTENT,
 			]
 		);
 
@@ -109,36 +110,45 @@ class CustomElementorWidget extends Widget_Base {
 			[
 				'label' => __( 'Title', 'elementor-hello-world' ),
 				'type' => Controls_Manager::TEXT,
+				'input_type' => 'text',
+				'placeholder' => __( 'Title Here', 'elementor-hello-world' ),
+			]
+		);
+
+		$this->add_control(
+			'field_1',
+			[
+				'label' => __( 'ACF Field Slug', 'elementor-hello-world' ),
+				'type' => Controls_Manager::TEXT,
+				'input_type' => 'text',
+				'placeholder' => __( 'acf_field', 'elementor-hello-world' ),
+				'description' => __( 'This is the "Name" you assigned to your Post Object field in ACF.' ),
+			]
+		);
+
+		$this->add_control(
+			'field_2',
+			[
+				'label' => __( 'ACF Field Slug', 'elementor-hello-world' ),
+				'type' => Controls_Manager::TEXT,
+				'input_type' => 'text',
+				'placeholder' => __( 'acf_field', 'elementor-hello-world' ),
+				'description' => __( 'This is the "Name" you assigned to your Post Object field in ACF.' ),
 			]
 		);
 
 		$this->end_controls_section();
 
 		$this->start_controls_section(
-			'section_style',
+			'style_section',
 			[
-				'label' => __( 'Style', 'elementor-hello-world' ),
+				'label' => __( 'Post Object', 'elementor-acf-po-li-extension' ),
 				'tab' => Controls_Manager::TAB_STYLE,
 			]
 		);
 
-		$this->add_control(
-			'text_transform',
-			[
-				'label' => __( 'Text Transform', 'elementor-hello-world' ),
-				'type' => Controls_Manager::SELECT,
-				'default' => '',
-				'options' => [
-					'' => __( 'None', 'elementor-hello-world' ),
-					'uppercase' => __( 'UPPERCASE', 'elementor-hello-world' ),
-					'lowercase' => __( 'lowercase', 'elementor-hello-world' ),
-					'capitalize' => __( 'Capitalize', 'elementor-hello-world' ),
-				],
-				'selectors' => [
-					'{{WRAPPER}} .title' => 'text-transform: {{VALUE}};',
-				],
-			]
-		);
+		
+
 
 		$this->end_controls_section();
 	}
@@ -154,12 +164,44 @@ class CustomElementorWidget extends Widget_Base {
 	 */
 	protected function render() {
 		$settings = $this->get_settings_for_display();
+		$title = $settings['title'];
+		$field_1 = $settings['field_1'];
+		$field_2 = $settings['field_2'];
+		//Get Field Name
+		$field_1  = get_field($field_1);
+		if(is_array($field_1)){  $this->repeater_fields($field_1);}
+		echo "<h3>" . $field_1 . "</h3>"; 
+		$field_2  = get_field($field_2);
 
-		echo '<div class="title">';
-		echo $settings['title'];
-		echo '</div>';
+		if(is_array($field_2)){ $this->repeater_fields($field_2);}
+	
+	
 	}
 
+	/**
+	 * 
+	 * 
+	 */
+
+	public function repeater_fields($repeater){
+		$html =  "";
+	
+		for($i = 0; $i < count($repeater[0]); $i++){
+			if(array_key_exists('text_area', $repeater[0])){
+				$html  .= "<p>" . $repeater[$i]['text_area'] . "</p>";
+			}
+			if(array_key_exists('image', $repeater[0])){
+				$imageUrl = $repeater[$i]['image']['url'];
+				$html  .= "<img src='$imageUrl'>";
+			}
+		
+		
+		}
+		print $html;
+		
+
+	}
+ 
 	/**
 	 * Render the widget output in the editor.
 	 *
