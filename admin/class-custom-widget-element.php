@@ -185,9 +185,13 @@ class CustomElementorWidget extends Widget_Base {
 
 	public function repeater_fields($repeater){
 		$html =  "";
+
+		//echo "<pre>";
+		//var_dump($repeater); 
+		//echo "</pre>";
 	
-		for($i = 0; $i < count($repeater[0]); $i++){
-			if(array_key_exists('text_area', $repeater[0])){
+		for($i = 0; $i < count($repeater); $i++){
+			if(array_key_exists('text_area', $repeater[$i])){
 				$html  .= "<p>" . $repeater[$i]['text_area'] . "</p>";
 			}
 			if(array_key_exists('image', $repeater[0])){
